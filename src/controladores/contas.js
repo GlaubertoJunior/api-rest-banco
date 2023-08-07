@@ -172,10 +172,11 @@ const depositar = (req, res) => {
         valor
     }
 
-    depositos.push(novoDeposito);
-    //contaInformada.saldo = saldo + Number(valor);
-    return res.send(novoDeposito);
-    //return res.json({ mensagem: 'Depósito realizado com sucesso.' });
+    banco.push(novoDeposito);
+    // [ ] To-do... contaInformada.saldo = saldo + Number(valor);
+
+    //// [ ] To-do... return res.send(novoDeposito);
+    return res.json({ mensagem: 'Depósito realizado com sucesso.' });
 
 }
 
@@ -224,11 +225,36 @@ const sacar = (req, res) => {
 
 }
 
+const consultarSaldo = (req, res) => {
+    const { numero_conta, senha } = req.query;
+
+    const contaInformada = contas.find((conta) => conta.numero === numero_conta);
+
+    if (!numero_conta) {
+        return res.status(400).json({ mensagem: 'O número da conta não foi informado.' })
+    }
+
+    if (!senha) {
+        return res.status(400).json({ mensagem: 'O número da senha não foi informado.' })
+    }
+
+    if (senha !== contaInformada.usuario.senha) {
+        return res.status(401).json({ mensagem: 'Senha está incorreta.' });
+    }
+
+    const indiceContaInformada = contas.findIndex(conta => conta.numero === numero_conta);
+
+
+    return res.json(indiceContaInformada);
+
+}
+
 module.exports = {
     listarContas,
     cadastrarConta,
     atualizarCadastro,
     excluirConta,
     depositar,
-    sacar
+    sacar,
+    consultarSaldo
 }
