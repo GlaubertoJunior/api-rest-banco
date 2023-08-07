@@ -1,6 +1,6 @@
 const { contas, depositos, saques, transferencias } = require('../bancodedados');
 
-let numeroDaConta = String(1); //ALTERAR PARA ***1***
+let numeroDaConta = 3; //ALTERAR PARA ***1***
 
 const listarContas = (req, res) => {
     return res.json(contas);
@@ -36,7 +36,7 @@ const cadastrarConta = (req, res) => {
     //const numeroConta = Date.now().toString();
 
     const novoCadastro = {
-        numero: numeroDaConta,
+        numero: String(numeroDaConta),
         saldo: 0,
         usuario: {
             nome,
@@ -154,6 +154,12 @@ const depositar = (req, res) => {
     if (valor <= 0) {
         return res.status(404).json({ mensagem: "O valor informado não é válido." });
     }
+
+    const indiceContaInformada = contas.findIndex(conta => conta.numero === numero_Conta);
+
+    //const indiceSaldo = contas.saldo.[indiceContaInformada - 1];
+
+
 
     //depositos.push();
     //contaInformada.saldo = saldo + Number(valor);
