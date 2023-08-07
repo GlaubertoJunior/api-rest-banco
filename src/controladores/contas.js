@@ -176,6 +176,7 @@ const depositar = (req, res) => {
     // [ ] To-do... contaInformada.saldo = saldo + Number(valor);
 
     //// [ ] To-do... return res.send(novoDeposito);
+    //
     return res.json({ mensagem: 'Depósito realizado com sucesso.' });
 
 }
