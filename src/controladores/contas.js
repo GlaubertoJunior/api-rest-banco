@@ -354,10 +354,11 @@ const consultarExtrato = (req, res) => {
         return res.status(401).json({ mensagem: 'Senha está incorreta.' });
     }
 
-    const historicoDepositos = depositos.filter((conta) => conta.numero === numero_conta);
-    const historicoSaques = saques.filter((conta) => conta.numero === numero_conta);
-    const historicoTransfRecebidas = transferencias.filter((conta) => conta.numero_conta_origem === numero_conta);
-    const historicoTransfEnviadas = transferencias.filter((conta) => conta.numero_conta_destino === numero_conta);
+    const historicoDepositos = depositos.filter((deposito) => deposito.numero_conta === numero_conta);
+    const historicoSaques = saques.filter((saque) => saque.numero_conta === numero_conta);
+    const historicoTransfRecebidas = transferencias.filter((transferencia) => transferencia.numero_conta_destino === numero_conta);
+    const historicoTransfEnviadas = transferencias.filter((transferencia) => transferencia.numero_conta_origem === numero_conta);
+
 
     const emitirExtrato = {
         depositos: historicoDepositos,
