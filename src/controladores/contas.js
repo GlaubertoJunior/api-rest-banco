@@ -10,25 +10,6 @@ const listarContas = (req, res) => {
 const cadastrarConta = (req, res) => {
     const { nome, cpf, data_nascimento, telefone, email, senha } = req.body;
 
-    //revisar essas validações não funcionam
-    if (cpf) {
-        const cpfExistente = contas.find(function (conta) {
-            return conta.cpf === cpf
-        });
-        if (cpfExistente) {
-            return res.status(400).json({ mensagem: `email já existente` });
-        }
-    }
-
-    if (email) {
-        const emailExistente = contas.find(function (conta) {
-            return conta.email === email
-        });
-        if (emailExistente) {
-            return res.status(400).json({ mensagem: `email já existente` });
-        }
-    }
-
     if (!nome) {
         return res.status(400).json({ mensagem: "O nome é obrigatório." })
     }
@@ -37,7 +18,7 @@ const cadastrarConta = (req, res) => {
         return res.status(400).json({ mensagem: 'O número do CPF é obrigatório.' });
     }
 
-    if (!data_nascimento) { //ajustar data de nascimento
+    if (!data_nascimento) {
         return res.status(400).json({ mensagem: 'A data de nascimento é obrigatória.' });
     }
 
@@ -53,10 +34,21 @@ const cadastrarConta = (req, res) => {
         return res.status(400).json({ mensagem: 'A senha é obrigatória.' });
     }
 
+    if (cpf) {
+        const cpfsCadastrados = contas.find((conta) => conta.usuario.cpf === cpf);
 
+        if (cpfsCadastrados) {
+            return res.status(400).json({ mensagem: 'Ops! Não conseguimos prosseguir. Verifique os dados informados.' });
+        }
+    }
 
+    if (email) {
+        const emailsCadastrados = contas.find((conta) => conta.usuario.email === email);
 
-    //const numeroConta = Date.now().toString();
+        if (emailsCadastrados) {
+            return res.status(400).json({ mensagem: 'Ops! Não conseguimos prosseguir. Verifique os dados informados.' });
+        }
+    }
 
     let dataRecebida = data_nascimento;
     let dataFiltrada = dataRecebida.split('/');
@@ -75,7 +67,6 @@ const cadastrarConta = (req, res) => {
         }
     };
 
-
     contas.push(novoCadastro);
 
     numeroDaConta++;
@@ -93,18 +84,24 @@ const atualizarCadastro = (req, res) => {
     if (!contaInformada) {
         return res.status(404).json({ mensagem: 'Conta não encontrada.' });
     }
-    /*
-        const numeroConta = req.query.numeroConta;
-    
-    
-        const contaInformada = contas.find((conta) => conta.numero === numeroConta);
-    
-        if (!contaInformada) {
-            return res.status(404).json({ mensagem: "Conta não encontrada." });
-        }
-    */
+
     const { nome, cpf, data_nascimento, telefone, email, senha } = req.body;
 
+    if (cpf) {
+        const cpfsCadastrados = contas.find((conta) => conta.usuario.cpf === cpf);
+
+        if (cpfsCadastrados) {
+            return res.status(400).json({ mensagem: 'Ops! Não conseguimos prosseguir. Verifique os dados informados.' });
+        }
+    }
+
+    if (email) {
+        const emailsCadastrados = contas.find((conta) => conta.usuario.email === email);
+
+        if (emailsCadastrados) {
+            return res.status(400).json({ mensagem: 'Ops! Não conseguimos prosseguir. Verifique os dados informados.' });
+        }
+    }
 
     if (nome) {
         contaInformada.usuario.nome = nome;
@@ -114,7 +111,7 @@ const atualizarCadastro = (req, res) => {
         contaInformada.usuario.cpf = cpf;
     }
 
-    if (data_nascimento) { //ajustar data de nascimento
+    if (data_nascimento) {
         let dataRecebida = data_nascimento;
         let dataFiltrada = dataRecebida.split('/');
         let dataFormatada = `${dataFiltrada[2]}-${dataFiltrada[1]}-${dataFiltrada[0]}`;
@@ -141,7 +138,6 @@ const atualizarCadastro = (req, res) => {
 const excluirConta = (req, res) => {
     const { numeroConta } = req.params;
 
-
     const contaInformada = contas.find((conta) => conta.numero === numeroConta);
 
     if (!contaInformada) {
@@ -158,9 +154,7 @@ const excluirConta = (req, res) => {
         return res.status(404).json({ mensagem: 'Conta não encontrada.' })
     }
 
-    //contas.splice(indiceContaInformada, 1)[0];
     contas.splice(indiceContaInformada, 1);
-
 
     return res.json({ mensagem: 'Conta excluída com sucesso.' });
 

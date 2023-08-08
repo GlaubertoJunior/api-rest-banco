@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = {  //deixar o BANCO DE DADOS COMO RECEBI
     banco: {
         nome: 'Cubos Bank',
         numero: '123',
