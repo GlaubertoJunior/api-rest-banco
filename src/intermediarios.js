@@ -1,4 +1,4 @@
-const validaSenha = (req, res, next) => {
+const validaSenhaBanco = (req, res, next) => {
     const { senha_banco } = req.query;
     const { banco } = require('./bancodedados')
 
@@ -9,4 +9,4 @@ const validaSenha = (req, res, next) => {
     next();
 }
 
-module.exports = validaSenha;
+module.exports = validaSenhaBanco;

@@ -10,6 +10,25 @@ const listarContas = (req, res) => {
 const cadastrarConta = (req, res) => {
     const { nome, cpf, data_nascimento, telefone, email, senha } = req.body;
 
+    //revisar essas validações não funcionam
+    if (cpf) {
+        const cpfExistente = contas.find(function (conta) {
+            return conta.cpf === cpf
+        });
+        if (cpfExistente) {
+            return res.status(400).json({ mensagem: `email já existente` });
+        }
+    }
+
+    if (email) {
+        const emailExistente = contas.find(function (conta) {
+            return conta.email === email
+        });
+        if (emailExistente) {
+            return res.status(400).json({ mensagem: `email já existente` });
+        }
+    }
+
     if (!nome) {
         return res.status(400).json({ mensagem: "O nome é obrigatório." })
     }
@@ -33,6 +52,9 @@ const cadastrarConta = (req, res) => {
     if (!senha) {
         return res.status(400).json({ mensagem: 'A senha é obrigatória.' });
     }
+
+
+
 
     //const numeroConta = Date.now().toString();
 
@@ -162,10 +184,22 @@ const depositar = (req, res) => {
         return res.status(404).json({ mensagem: 'Conta não encontrada.' });
     }
 
+    if (valor > 0) {
+        const novoDeposito = {
+            data: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+            numero_conta: contaInformada,
+            valor
+        }
+
+        depositos.push(novoDeposito);
+
+        return res.json({ mensagem: 'Depósito realizado com sucesso.' });
+    }
+
     if (valor <= 0) {
         return res.status(404).json({ mensagem: 'O valor informado não é válido.' });
     }
-
+    /*
     const novoDeposito = {
         data: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
         numero_conta: contaInformada,
@@ -173,11 +207,13 @@ const depositar = (req, res) => {
     }
 
     banco.push(novoDeposito);
+
+    return res.json({ mensagem: 'Depósito realizado com sucesso.' });
     // [ ] To-do... contaInformada.saldo = saldo + Number(valor);
 
     //// [ ] To-do... return res.send(novoDeposito);
     //
-    return res.json({ mensagem: 'Depósito realizado com sucesso.' });
+    */
 
 }
 
