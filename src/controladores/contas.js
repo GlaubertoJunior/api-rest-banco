@@ -134,7 +134,6 @@ const atualizarCadastro = (req, res) => {
     return res.json({ mensagem: 'Conta atualizada com sucesso' });
 }
 
-
 const excluirConta = (req, res) => {
     const { numeroConta } = req.params;
 
