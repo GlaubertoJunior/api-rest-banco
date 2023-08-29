@@ -71,7 +71,7 @@ const cadastrarConta = (req, res) => {
 
     numeroDaConta++;
 
-    return res.status(201).send();
+    return res.status(200).json({ mensagem: 'Conta criada com sucesso' });
 }
 
 const atualizarCadastro = (req, res) => {
