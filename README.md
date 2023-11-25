@@ -16,8 +16,7 @@ O sistema bancário oferece as seguintes funcionalidades:
 
 1.	Clonar o repositório:
 
-https://github.com/GlaubertoJunio
-
+(https://github.com/glaubertojunior/api-rest-banco)
 2.	Clonar o repositório:
 
     npm install
